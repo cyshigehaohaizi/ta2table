@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <link rel="stylesheet" href="../slick.grid.css" type="text/css"/>
+    <link rel="stylesheet" href="../controls/slick.pager.css" type="text/css"/>
+    <link rel="stylesheet" href="../css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css"/>
+    <link rel="stylesheet" href="../base.css" type="text/css"/>
+    <link rel="stylesheet" href="../controls/slick.columnpicker.css" type="text/css"/>
+</head>
+<style>
+    .slick-cell-checkboxsel {
+        background: #f0f0f0;
+        border-right-color: silver;
+        border-right-style: solid;
+    }
+</style>
+<body>
+<div id="myGrid" style="width:100%;height:500px;">
+</div>
+<input type="button" id="add" value="添加一行">
+<input type="button" id="getadd" value="获取添加的数据">
+<input type="button" id="delete" value="删除第一行">
+<input type="button"  id="deletes" value="删除选择行">
+<input type="button" id="getdeletes" value="获取删除行">
+<input type="button" id="getedits" value="获取编辑行">
+
+
+
+
+</body>
+
+<script src="../lib/firebugx.js"></script>
+<script src="../lib/jquery-1.7.min.js"></script>
+<script src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
+<script src="../lib/jquery.event.drag-2.2.js"></script>
+
+
+<script src="../slick.core.js"></script>
+<script src="../slick.dataview.js"></script>
+<script src="../plugins/slick.autotooltips.js"></script>
+<script src="../plugins/slick.cellcopymanager.js"></script>
+<script src="../plugins/slick.cellrangedecorator.js"></script>
+<script src="../plugins/slick.cellrangeselector.js"></script>
+<script src="../plugins/slick.cellselectionmodel.js"></script>
+<script src="../plugins/slick.checkboxselectcolumn.js"></script>
+<script src="../plugins/slick.RadioSelectColumn.js"></script>
+<!--<script src="../controls/slick.pager.js"></script>-->
+<script src="../controls/slick.exportExcelBar.js"></script>
+<script src="../controls/slick.pagersvr.js"></script>
+<script src="../controls/slick.columnpicker.js"></script>
+
+
+<script src="../plugins/slick.headerbuttons.js"></script>
+<script src="../plugins/slick.headermenu.js"></script>
+<script src="../plugins/slick.rowmovemanager.js"></script>
+<script src="../plugins/slick.rowselectionmodel.js"></script>
+<script src="../slick.groupitemmetadataprovider.js"></script>
+<script src="../slick.remotemodel.js"></script>
+<script src="../slick.formatters.js"></script>
+<script src="../slick.editors.js"></script>
+<script src="../slick.grid.js"></script>
+<script src="../slick.base.js"></script>
+
+
+
+
+<script>
+
+
+    var data = [];
+    //
+    //    var columns = [
+    ////        {id:"num",name:"编号",field:"num",sortable: true,dataType:"num"},
+    //        {id: "name", name: "姓名", field: "name", sortable: true, dataType: "string", width: 200},
+    //        {id: "img", name: "图片", formatter: Slick.Formatters.ImageModel, image: "add.png"},//图片
+    //        {
+    //            id: "collection",
+    //            name: "码表",
+    //            field: "collection",
+    //            formatter: Slick.Formatters.collection,
+    //            collection: "AKC269",
+    //            sortable: true
+    //        },//码表
+    //        {
+    //            id: "date",
+    //            name: "日期",
+    //            field: "date",
+    //            formatter: Slick.Formatters.format,
+    //            format: "yyyy-MM-dd hh:mm:ss",
+    //            align: "right"
+    //        },//日期显示
+    //        {id: "style", name: "样式", field: "style1", align: "right", color: "red", backgroundColor: "#ccc", display: ""},//样式
+    //        {id: "numtest", name: "表达式测试", field: "numtest", onclick: "Test(this)", ondblclick: "Test2(1)"},
+    //        {
+    //            id: "bke005",
+    //            name: "表达式",
+    //            field: "bke005",
+    //            formatter: Slick.Formatters.valueExpression,
+    //            valueExpression: "(Number(bke005)==3)?bke005='终审':bke005=bke005",
+    //            styleExpression: "(Number(bke005)<=0)?{background_color:'red'}:null"
+    //        }
+    //    ];
+    //
+    //
+
+
+    var columns = [
+        {
+            'field': 'departId',//
+            'id': 'departId',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 100,
+            'name': '所属部门',
+            'collectionData': {22220: "研发", 22221: "销售", 22222: "市场", 22223: "产品", 22224: "UI"},//码表
+            'edit': false,
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'collection': 'YAB109',
+            'childNum': 0,
+
+        }, {
+            'field': 'name',
+            'id': 'name',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 100,
+            'name': '姓名',
+            'collectionData': {},
+            'edit': false,
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'childNum': 0
+        }, {
+            'field': 'loginId',
+            'id': 'loginId',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 120,
+            'name': '登录帐号',
+            'collectionData': {},
+            'edit': false,
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'childNum': 0
+        }, {
+            'field': 'userId',
+            'id': 'userId',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 100,
+            'name': '用户编号',
+            'collectionData': {},
+            'edit': false,
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'childNum': 0
+        }, {
+            'field': 'locked',
+            'id': 'locked',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 100,
+            'name': '锁定标志',
+            'collectionData': {},
+            'edit': false,
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'childNum': 0,
+//            styleExpression: "(Number(book)<=10)?{background_color:'red'}:null"
+
+        }, {
+            'field': 'operator',
+            'id': 'operator',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 100,
+            'name': '使用',
+            'collectionData': {},
+            'edit': false,
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'childNum': 0,
+             operation: "avg"
+        },
+        {
+            'field': 'book',
+            'id': 'book',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 100,
+            'name': '书本',
+            'collectionData': {},
+            'edit': false,
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'childNum': 0,
+            operation: "max",
+            format: "#,##0.00",
+            edit:true,
+            max:700,
+            styleExpression: "(Number(book)<=10)?{background_color:'red'}:null"
+        },
+        {
+            'field': 'date',
+            'id': 'date',
+            'displayFields': 'codeValue,codeDESC',
+            'haveChild': false,
+            'sortable': true,
+            'width': 100,
+            'name': '日期',
+            'collectionData': {},
+            'valueField': 'codeValue,codeDESC',
+            'display': true,
+            'childNum': 0,
+             format: "yyyy-MM-dd",
+             'edit':true,
+
+
+        },
+
+    ]
+
+
+    $$(function () {
+//        data = [
+//            {
+//            'loginId': '1111_0',
+//            'userId': '44444_0',
+//            'name': '3333_0',
+//            'departId': '22220',
+//            'locked': 1,
+//            "age":18,
+//            "book":10,
+//            "date":new Date()
+//        }, {
+//            'loginId': '1111_1',
+//            'userId': '44444_1',
+//            'name': '3333_1',
+//            'departId': '22221',
+//            'locked': 1,
+//            "age":21,
+//            "book":100001,
+//            "date":new Date()
+//        }, {
+//            'loginId': '1111_2',
+//            'userId': '44444_2',
+//            'name': '3333_2',
+//            'departId': '22222',
+//            'locked': 1,
+//            "age":20,
+//            "book":10,
+//            "date":new Date()
+//        }, {
+//            'loginId': '1111_3',
+//            'userId': '44444_3',
+//            'name': '3333_3',
+//            'departId': '22223',
+//            'locked': 1,
+//            "age":27,
+//            "book":10.1234,
+//            "date":new Date()
+//        }, {
+//            'loginId': '1111_4',
+//            'userId': '44444_4',
+//            'name': '3333_4',
+//            'departId': '22224',
+//            'locked': 1,
+//            "age":25,
+//            "book":10,
+//            "date":new Date()
+//        }
+//
+//
+//
+//        ];
+
+
+        data = [
+            {
+            'loginId': '3300yinhai',
+            'sex': '1',
+            'operateTime': '2016-03-17 16:01:53.0',
+            'lastLoginDepartId': '3301',
+            'available': '1',
+            'passwordEditTime': '2016-03-17 16:01:54.0',
+            'password': '29PYtt0CYAXxrlJgzd/HUg==',
+            'operator': '999999998',
+            'orgId': '3300',
+            'passwordFaultNum': 0,
+            'userId': '1000001782',
+            'name': '银海测试',
+            'lastLoginRoleId': '1000001781',
+            'departId': '3301',
+            'locked': '0',
+            'orderId': 0
+        }, {
+            'loginId': '3325yinhai',
+            'sex': '1',
+            'operateTime': '2016-03-23 11:06:06.0',
+            'lastLoginDepartId': '3305',
+            'available': '1',
+            'passwordEditTime': '2016-03-23 11:06:06.0',
+            'password': '29PYtt0CYAXxrlJgzd/HUg==',
+            'operator': '999999998',
+            'orgId': '3325',
+            'passwordFaultNum': 0,
+            'userId': '1000001802',
+            'name': '测试',
+            'lastLoginRoleId': '1000001801',
+            'departId': '3305',
+            'locked': '0',
+            'orderId': 0
+        }, {
+            'loginId': '3321yinhai',
+            'sex': '1',
+            'operateTime': '2016-04-05 11:06:39.0',
+            'lastLoginDepartId': '3321',
+            'available': '1',
+            'passwordEditTime': '2016-04-05 11:06:40.0',
+            'password': '29PYtt0CYAXxrlJgzd/HUg==',
+            'operator': '999999998',
+            'orgId': '3321',
+            'passwordFaultNum': 1,
+            'userId': '1000001862',
+            'name': '银海',
+            'lastLoginRoleId': '1000001863',
+            'departId': '3321',
+            'locked': '0',
+            'orderId': 0
+        }, {
+            'loginId': '3323yinhai',
+            'sex': '1',
+            'operateTime': '2016-04-06 10:18:02.0',
+            'lastLoginDepartId': '3323',
+            'available': '1',
+            'passwordEditTime': '2016-04-06 10:18:02.0',
+            'password': '29PYtt0CYAXxrlJgzd/HUg==',
+            'operator': '999999998',
+            'orgId': '3323',
+            'passwordFaultNum': 0,
+            'userId': '1000001861',
+            'name': '银海测试',
+            'lastLoginRoleId': '1000001862',
+            'departId': '3323',
+            'locked': '0',
+            'orderId': 0
+        }]
+
+        var options = {
+            allowExport: true,
+            exportExcelName: "导出",
+            'exportNoHead': true,//后台传入
+            'id': 'usersGird',
+            'ActionPath': "test.do",
+            'style': 'overflow-y:auto;width:100.0%;',
+            'showBar': true,
+            'allowExport': true,
+            'selectType': 'checkbox',//checkbox || radio
+             totalFlag: true,//是否显示合计行,默认不显示
+             showBar: true,//是否显示导出工具条
+             pageSize:12,
+             havSn:true,
+             editable:true,
+             rowStyleExpression:"(Number(book)>10)?{background_color:'green'}:null"
+
+        }
+        var obj = {"totalRows":"4","totalPages":Math.ceil(data.length/Number(10)),"dataList":data}
+
+        var mygrid = new ta2CreateSlickGrid("myGrid", columns, options);
+         $$("#add").bind("click",function(){
+             var item= {
+                 'loginId': '33111yinhai',
+                 'sex': '1',
+                 'operateTime': '2016-03-17 16:01:53.0',
+                 'lastLoginDepartId': '3301',
+                 'available': '1',
+                 'passwordEditTime': '2016-03-17 16:01:54.0',
+                 'password': '29PYtt0CYAXxrlJgzd/HUg==',
+                 'operator': 999999998,
+                 'orgId': '3300',
+                 'passwordFaultNum': 0,
+                 'userId': '1000001782',
+                 'name': '银海测试',
+                 'lastLoginRoleId': '1000001781',
+                 'departId': '3301',
+                 'locked': '0',
+                 'orderId': 0,
+                 "book":12}
+             mygrid.addNewItem(item);
+
+         })
+
+        $$("#getadd").bind("click",function(){
+            console.table(mygrid.getAddNewItems())
+        })
+        $$("#delete").bind("click",function(){
+            mygrid.deleteItem(0);
+
+        })
+        $$("#deletes").bind("click",function(){
+              mygrid.deleteItems(mygrid.getSelectedRows());
+
+        })
+        $$("#getdeletes").bind("click",function(){
+            console.table(mygrid.getDeleteDataItems())
+        })
+
+        $$("#getedits").bind("click",function(){
+            console.table(  mygrid.getEditItems())
+        })
+
+
+    })
+
+
+</script>
+</html>
